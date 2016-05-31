@@ -1,0 +1,14 @@
+img {
+  width: 200px;
+}
+
+.column {
+  float: left;
+  margin: 5px;
+  width: 210px;
+}
+
+input {
+  width: 200px;
+  font-size: 18px;
+}
