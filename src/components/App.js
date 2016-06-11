@@ -54,7 +54,7 @@ class App extends React.Component {
             <b>{group.name}</b>
             {group.kittens.map((kitten) =>
               <div>
-                <img src={kitten.pictureUrl} />
+                <img onClick={() => this.addKittenToRandomGroup(kitten, group)} src={kitten.pictureUrl} />
                 <input type='text'
                   defaultValue={kitten.name}
                   onBlur={(e) => this.saveNewName(kitten, e.target.value)} />
@@ -68,6 +68,13 @@ class App extends React.Component {
 
   saveNewName (kitten, name) {
     this.props.mutations.renameKitten(kitten, name)
+  }
+
+  addKittenToRandomGroup (kitten, currentGroup) {
+    const newGroup = this.props.groups.allGroups.sort(() => Math.random() - 0.5)[0]
+    this.props.mutations.removeKittenFromGroup(kitten, currentGroup)
+    .then(() => this.props.mutations.addKittenToGroup(kitten, newGroup))
+    .then(() => this.props.groups.refetch())
   }
 
   render () {
@@ -95,6 +102,7 @@ const AppLinked = connect({
         query: gql`
         {
           allGroups{
+            id
             name
             kittens{
               id
@@ -118,6 +126,34 @@ const AppLinked = connect({
         variables: {
           id: kitten.id,
           name: name,
+        },
+      }),
+      addKittenToGroup: (kitten, group) => ({
+        mutation: gql`
+        mutation addToGroup($kittenId: ID!, $groupId: ID!) {
+          addKittenTokittensConnectionOnGroup(
+            fromId: $groupId,
+            toId: $kittenId
+          ) { id }
+        }
+        `,
+        variables: {
+          kittenId: kitten.id,
+          groupId: group.id,
+        },
+      }),
+      removeKittenFromGroup: (kitten, group) => ({
+        mutation: gql`
+        mutation removeFromGroup($kittenId: ID!, $groupId: ID!) {
+          removeKittenFromkittensConnectionOnGroup(
+            fromId: $groupId,
+            toId: $kittenId
+          ) { id }
+        }
+        `,
+        variables: {
+          kittenId: kitten.id,
+          groupId: group.id,
         },
       }),
     }
