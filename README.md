@@ -47,4 +47,4 @@ npm start
 
 Join our [Slack community](http://slack.graph.cool/) if you run into issues or have questions. We love talking to you!
 
-<img src="http://i.imgur.com/xilwhK8.png" width="860px" height="220px" />
+![](http://i.imgur.com/GStQtv1.png)
