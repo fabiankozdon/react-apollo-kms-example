@@ -1,5 +1,5 @@
 # react-apollo-kms-example
-:memo: Example app built with [React](https://facebook.github.io/react) & [Apollo Client](https://github.com/apollostack/apollo-client)
+![](http://i.imgur.com/UvGvpwk.png)
 
 ## Getting Started
 
